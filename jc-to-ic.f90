@@ -9,4 +9,5 @@ subroutine get_ic(rg,rp,theta,r12,r13,r23)
     r12=((rp*0.5)*(rp*0.5)+rg*rg-2*0.5*rg*rp*cos(thrad))**0.5
     r13=((rp*0.5)*(rp*0.5)+rg*rg-2*0.5*rg*rp*cos(pi-thrad))**0.5
     r23=rp
+
 end
