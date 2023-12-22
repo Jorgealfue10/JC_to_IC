@@ -39,8 +39,8 @@ program get_fit
         write(18,*) r13,e
         call diat23(r23,e,de)
         write(19,*) r23,e
-        call fit3d(r12,r13,r23,e,der)
-        write(16,*) rg,rp,theta,e
+!       call fit3d(r12,r13,r23,e,der)
+!       write(16,*) rg,rp,theta,e
     enddo
 
 end program get_fit
