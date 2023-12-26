@@ -7,7 +7,7 @@ program jcconv
     character(len=1) :: diattype
     integer :: io
     
-    open(15,file="ci.dat",action="read")
+    open(15,file="ci.dat",action="read" )
     open(16,file="icci.dat",action="write")
 
     write(*,*) "-----------------------------------------------"
