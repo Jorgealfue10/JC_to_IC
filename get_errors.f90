@@ -40,7 +40,7 @@ program errors
         ! call get_ic(rg,rp,theta,r12,r13,r23,diattype)
         call fit3d(r12,r13,r23,en,eh,der)
         !e=eh+e
-        if (abs(en-e)*219474.ge.2000) then
+        if (abs(en-e)*219474.ge.1500) then
             write(17,*) r12,r23,r13,e,en,abs(en-e)*219474
             print*,i
         else
