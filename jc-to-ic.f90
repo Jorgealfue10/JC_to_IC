@@ -26,8 +26,8 @@ subroutine get_ic(rg,rp,theta,r12,r13,r23,ditype)
         thrad=theta*pi/180.d0
 
         r12=rp
-        r13=(rpx**2+rg**2-2.d0*rpx*rg*dcos(thrad))**0.5d0
-        r23=(rhx**2+rg**2-2.d0*rhx*rg*dcos(180.d0-thrad))**0.5d0
+        r13=(rpx**2+rg**2-2.d0*rpx*rg*dcos(180.d0-thrad))**0.5d0
+            r23=(rhx**2+rg**2-2.d0*rhx*rg*dcos(thrad))**0.5d0
     endif
 
 end

@@ -3,7 +3,7 @@ program jcconv
     integer :: i,j,npoints
     real(kind=8) :: rg,rp,theta
     real(kind=8) :: r12,r13,r23
-    real(kind=8) :: e(6)
+    real(kind=8) :: e(3)
     character(len=1) :: diattype
     integer :: io
     
@@ -20,8 +20,10 @@ program jcconv
     do
         read(15,*,iostat=io) rg,rp,theta,e(:)
         if (io.ne.0) exit
+        ! if (rp.eq.2.20d0) then
         call get_ic(rg,rp,theta,r12,r13,r23,diattype)
         write(16,*) rg,rp,theta,r12,r13,r23,e(:)
+        ! endif
     enddo
     close(15)
     close(16)

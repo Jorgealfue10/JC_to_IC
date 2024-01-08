@@ -9,7 +9,7 @@ program errors
     interface
         subroutine fit3d(r1,r2,r3,e,der)
             implicit none
-            real(8) :: r1,r2,r3,eh,e
+            real(8) :: r1,r2,r3,e
             real(8) :: der(3)
         end subroutine
         subroutine diat12(r,e,der)
@@ -33,7 +33,7 @@ program errors
     write(*,*)
     write(*,*) "-----------------------------------------------"
 
-    emax=1600
+    emax=5000
     i=0
     do
         read(15,*,iostat=io) r12,r13,r23,e!,aux,aux,aux
