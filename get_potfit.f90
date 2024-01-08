@@ -12,6 +12,11 @@ program get_fit
             real(8) :: r1,r2,r3,e
             real(8) :: der(3)
         end subroutine
+        subroutine triabb(r1,r2,r3,e123,der)
+            implicit none
+            real(8) :: r1,r2,r3,e123
+            real(8) :: der(3)
+        end subroutine
         subroutine diat12(r,e,der)
             implicit none
             real(8) :: r,e,der
@@ -28,6 +33,7 @@ program get_fit
     open(17,file="pot-12.dat",action="write")
     open(18,file="pot-13.dat",action="write")
     open(19,file="pot-23.dat",action="write")
+    open(20,file="pot-3body.dat",action="write")
 
     write(*,*) "-----------------------------------------------"
     write(*,*) "For the diatomic molecule."
@@ -49,6 +55,8 @@ program get_fit
         write(18,*) r13,e
         call diat23(r23,e,de)
         write(19,*) r23,e
+        call triabb(r12,r13,r23,e,der)
+        write(20,*) r12,r13,r23,rg,rp,theta,e
         call fit3d(r12,r13,r23,e,der)
         write(16,*) rg,rp,theta,e
     enddo

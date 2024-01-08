@@ -21,7 +21,7 @@ program jcconv
         read(15,*,iostat=io) rg,rp,theta,e(:)
         if (io.ne.0) exit
         call get_ic(rg,rp,theta,r12,r13,r23,diattype)
-        write(16,*) r12,r13,r23,e(:)
+        write(16,*) rg,rp,theta,r12,r13,r23,e(:)
     enddo
     close(15)
     close(16)
