@@ -29,7 +29,6 @@ program get_fit
 
     open(15,file="jac-param.dat",action="read")
     open(16,file="pot-jc.dat",action="write")
-!   open(20,file="pot-ic.dat",action="write")
     open(17,file="pot-12.dat",action="write")
     open(18,file="pot-13.dat",action="write")
     open(19,file="pot-23.dat",action="write")
@@ -38,11 +37,11 @@ program get_fit
     write(*,*) "-----------------------------------------------"
     write(*,*) "For the diatomic molecule."
     write(*,fmt='(A19)',advance='no') "Homonuclear (y/n): "
-    !read(*,*) diattype
+    read(*,*) diattype
     write(*,*) "-----------------------------------------------"
     write(*,*)
 
-    diattype='y'
+    ! diattype='y'
     read(15,*) npoints,drg,rp,theta
 
     rgini=1.5
@@ -58,7 +57,7 @@ program get_fit
         call triabb(r12,r13,r23,e,der)
         write(20,*) r12,r13,r23,rg,rp,theta,e
         call fit3d(r12,r13,r23,e,der)
-        write(16,*) rg,rp,theta,e
+        write(16,*) rg,rp,theta,r12,r13,r23,e
     enddo
 
 end program get_fit
