@@ -3,8 +3,10 @@ program get_fit
     integer :: i,j,npoints
     real(kind=8) :: rg,drg,rp,theta,rgini
     real(kind=8) :: r12,r13,r23,e,de
+    real(kind=8) :: aux,abini,emin,eminfit
     real(kind=8) :: der(3)
     character(len=1) :: diattype
+    integer :: io
 
     interface
         subroutine fit3d(r1,r2,r3,e,der)
@@ -27,7 +29,6 @@ program get_fit
         end subroutine
     end interface
 
-    open(15,file="jac-param.dat",action="read")
     open(16,file="pot-jc.dat",action="write")
     open(17,file="pot-12.dat",action="write")
     open(18,file="pot-13.dat",action="write")
@@ -37,16 +38,42 @@ program get_fit
     write(*,*) "-----------------------------------------------"
     write(*,*) "For the diatomic molecule."
     write(*,fmt='(A19)',advance='no') "Homonuclear (y/n): "
-    read(*,*) diattype
+    ! read(*,*) diattype
     write(*,*) "-----------------------------------------------"
     write(*,*)
 
+    diattype='n'
+
+    if (diattype.eq."n") then
+        open(15,file="jcci.dat",action="read")
+    else
+        open(15,file="ci.dat",action="read")
+    endif
     ! diattype='y'
-    read(15,*) npoints,drg,rp,theta
+    ! read(15,*) npoints,drg,rp,theta
 
     rgini=1.5
-    do i=1,npoints
-        rg=rgini+drg*(i-1)
+    ! do i=1,npoints
+    !     rg=rgini+drg*(i-1)
+
+    emin=0.d0
+    eminfit=0.d0
+
+    do
+        read(15,*,iostat=io) rg,rp,theta,aux,abini,aux
+        if (io.ne.0) exit
+        if ((abini).lt.(emin)) emin=abini
+        call get_ic(rg,rp,theta,r12,r13,r23,diattype)
+        call fit3d(r12,r13,r23,e,der)
+        if ((e).lt.(eminfit)) eminfit=e
+    enddo
+
+    rewind(15)
+
+    do
+        read(15,*,iostat=io) rg,rp,theta,aux,abini,aux
+        if (io.ne.0) exit
+        print*,emin
         call get_ic(rg,rp,theta,r12,r13,r23,diattype)
         call diat12(r12,e,de)
         write(17,*) r12,e
@@ -57,7 +84,8 @@ program get_fit
         call triabb(r12,r13,r23,e,der)
         write(20,*) r12,r13,r23,rg,rp,theta,e
         call fit3d(r12,r13,r23,e,der)
-        write(16,*) rg,rp,theta,r12,r13,r23,e
+        if ((e).lt.(eminfit)) eminfit=e
+        write(16,*) rg,rp,theta,r12,r13,r23,abini-emin,e-eminfit
     enddo
 
 end program get_fit

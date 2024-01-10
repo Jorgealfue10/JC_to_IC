@@ -16,12 +16,12 @@ subroutine get_ic(rg,rp,theta,r12,r13,r23,ditype)
     else
         mp=30.973762d0
         mh=1.007d0
-        write(*,*) 'Mass atom 1 (P): ',mp
-        write(*,*) 'Mass atom 2 (H): ',mh
+        ! write(*,*) 'Mass atom 1 (P): ',mp
+        ! write(*,*) 'Mass atom 2 (H): ',mh
         rpx=(rp*mh)/(mh+mp)
         rhx=(rp*mp)/(mh+mp)
-        write(*,*) 'R P->X: ', rpx
-        write(*,*) 'R H->X: ', rhx
+        ! write(*,*) 'R P->X: ', rpx
+        ! write(*,*) 'R H->X: ', rhx
 
         thrad=theta*pi/180.d0
 
