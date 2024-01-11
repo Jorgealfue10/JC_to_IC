@@ -4,6 +4,7 @@ program get_fit
     real(kind=8) :: rg,drg,rp,theta,rgini
     real(kind=8) :: r12,r13,r23,e,de
     real(kind=8) :: aux,abini,emin,eminfit
+    real(kind=8) :: emin2,eminfit2,abini2
     real(kind=8) :: der(3)
     character(len=1) :: diattype
     integer :: io
@@ -30,6 +31,7 @@ program get_fit
     end interface
 
     open(16,file="pot-jc.dat",action="write")
+    open(25,file="pot-ic.dat",action="write")
     open(17,file="pot-12.dat",action="write")
     open(18,file="pot-13.dat",action="write")
     open(19,file="pot-23.dat",action="write")
@@ -46,6 +48,7 @@ program get_fit
 
     if (diattype.eq."n") then
         open(15,file="jcci.dat",action="read")
+        open(24,file="icci.dat",action="read")
     else
         open(15,file="ci.dat",action="read")
     endif
@@ -62,18 +65,22 @@ program get_fit
     do
         read(15,*,iostat=io) rg,rp,theta,aux,abini,aux
         if (io.ne.0) exit
-        if ((abini).lt.(emin)) emin=abini
+        emin=abini
         call get_ic(rg,rp,theta,r12,r13,r23,diattype)
         call fit3d(r12,r13,r23,e,der)
-        if ((e).lt.(eminfit)) eminfit=e
+        eminfit=e
+        read(24,*,iostat=io) r12,r13,r23,aux,abini,aux
+        call fit3d(r12,r13,r23,e,der)
+        emin2=abini
+        eminfit2=e
     enddo
 
     rewind(15)
+    rewind(24)
 
     do
         read(15,*,iostat=io) rg,rp,theta,aux,abini,aux
         if (io.ne.0) exit
-        print*,emin
         call get_ic(rg,rp,theta,r12,r13,r23,diattype)
         call diat12(r12,e,de)
         write(17,*) r12,e
@@ -84,8 +91,12 @@ program get_fit
         call triabb(r12,r13,r23,e,der)
         write(20,*) r12,r13,r23,rg,rp,theta,e
         call fit3d(r12,r13,r23,e,der)
-        if ((e).lt.(eminfit)) eminfit=e
+        ! eminfit=e
         write(16,*) rg,rp,theta,r12,r13,r23,abini-emin,e-eminfit
+
+        read(24,*,iostat=io) r12,r13,r23,aux,abini,aux
+        call fit3d(r12,r13,r23,e,der)
+        write(25,*) r12,r13,r23,abini-emin2,e-eminfit2
     enddo
 
 end program get_fit

@@ -20,13 +20,13 @@ subroutine get_ic(rg,rp,theta,r12,r13,r23,ditype)
         ! write(*,*) 'Mass atom 2 (H): ',mh
         rpx=(rp*mh)/(mh+mp)
         rhx=(rp*mp)/(mh+mp)
-        ! write(*,*) 'R P->X: ', rpx
-        ! write(*,*) 'R H->X: ', rhx
+        write(*,*) 'R P->X: ',rg,rp,rpx
+        write(*,*) 'R H->X: ', rhx
 
         thrad=theta*pi/180.d0
 
         r12=rp
-        r13=(rpx**2+rg**2-2.d0*rpx*rg*dcos(180.d0-thrad))**0.5d0
+        r13=(rpx**2+rg**2-2.d0*rpx*rg*dcos(pi-thrad))**0.5d0
         r23=(rhx**2+rg**2-2.d0*rhx*rg*dcos(thrad))**0.5d0
     endif
 
