@@ -44,7 +44,7 @@ program get_fit
     write(*,*) "-----------------------------------------------"
     write(*,*)
 
-    diattype='n'
+    diattype='y'
 
     if (diattype.eq."n") then
         open(15,file="jcci.dat",action="read")
@@ -63,23 +63,35 @@ program get_fit
     eminfit=0.d0
 
     do
-        read(15,*,iostat=io) rg,rp,theta,aux,abini,aux
+        if (diattype.eq."n") then
+            read(15,*,iostat=io) rg,rp,theta,aux,abini,aux
+        else
+            read(15,*,iostat=io) rg,rp,theta,aux,aux,aux,aux,abini,aux
+        endif
         if (io.ne.0) exit
         emin=abini
         call get_ic(rg,rp,theta,r12,r13,r23,diattype)
         call fit3d(r12,r13,r23,e,der)
         eminfit=e
-        read(24,*,iostat=io) r12,r13,r23,aux,abini,aux
-        call fit3d(r12,r13,r23,e,der)
-        emin2=abini
-        eminfit2=e
+        if (diattype.eq."n") then
+            read(24,*,iostat=io) r12,r13,r23,aux,abini,aux
+            call fit3d(r12,r13,r23,e,der)
+            emin2=abini
+            eminfit2=e
+        endif
     enddo
 
     rewind(15)
-    rewind(24)
+    if (diattype.eq."n") then
+        rewind(24)
+    endif
 
     do
-        read(15,*,iostat=io) rg,rp,theta,aux,abini,aux
+        if (diattype.eq."n") then
+            read(15,*,iostat=io) rg,rp,theta,aux,abini,aux
+        else
+            read(15,*,iostat=io) rg,rp,theta,aux,aux,aux,aux,abini,aux
+        endif
         if (io.ne.0) exit
         call get_ic(rg,rp,theta,r12,r13,r23,diattype)
         call diat12(r12,e,de)
@@ -94,9 +106,11 @@ program get_fit
         ! eminfit=e
         write(16,*) rg,rp,theta,r12,r13,r23,abini-emin,e-eminfit
 
-        read(24,*,iostat=io) r12,r13,r23,aux,abini,aux
-        call fit3d(r12,r13,r23,e,der)
-        write(25,*) r12,r13,r23,abini-emin2,e-eminfit2
+        if (diattype.eq."n") then
+            read(24,*,iostat=io) r12,r13,r23,aux,abini,aux
+            call fit3d(r12,r13,r23,e,der)
+            write(25,*) r12,r13,r23,abini-emin2,e-eminfit2
+        endif
     enddo
 
 end program get_fit

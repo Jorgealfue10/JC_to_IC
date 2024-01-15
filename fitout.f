@@ -39,7 +39,7 @@
       vex1=0.2500290431097651D+01
       vex2=0.1005341239965219D+01
       aux = 1.d0/r
-      bux = dexp(-vex2*r)*aux
+      bux =  dexp(-vex2*r)*aux
       cux = dexp(-vex1*r)
       ener=e0+cf(1)*bux
       dux=1.d0
