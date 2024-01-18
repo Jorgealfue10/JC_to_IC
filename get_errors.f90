@@ -41,7 +41,7 @@ program errors
 
     rewind(15)
 
-    emax=20000
+    emax=2500
     i=0
     do 
         read(15,*,iostat=io) r12,r23,r13,e!,aux,aux,aux
@@ -57,7 +57,7 @@ program errors
         en=en-eminfit
         !e=eh+e
         if (abs(en-e)*219474.ge.emax) then
-            write(17,*) r12,r23,r13,e,en,abs(en-e)*219474
+            write(17,*) r12,r23,r13,e,en,abs(en-e)*219474,"AA"
             xp=0.01d0
             write(16,*) r12,r23,r13,e+emin,xp
             print*,i

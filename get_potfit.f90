@@ -44,7 +44,7 @@ program get_fit
     write(*,*) "-----------------------------------------------"
     write(*,*)
 
-    diattype='y'
+    diattype='n'
 
     if (diattype.eq."n") then
         open(15,file="jcci.dat",action="read")
